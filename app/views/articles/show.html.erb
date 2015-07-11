@@ -15,5 +15,24 @@
   <%= @article.author %>
 </p>
 
+
+<% @article.comments.each do |comment|%>
+	<p>
+	  <strong>Title:</strong>
+	  <%= comment.body %>
+	  <%= comment.id %>
+	</p>
+
+	<p>
+	  <strong>Description:</strong>
+	  <%= comment.name %>
+	</p>
+	<%= link_to 'Edit Comment', edit_article_comment_path(@article, comment) %>
+<% end %>
+<div id="articleCommets"></div>
+
+
+
+<%=render 'comments/form', :locals => @article%>
 <%= link_to 'Edit', edit_article_path(@article) %> |
 <%= link_to 'Back', articles_path %>
