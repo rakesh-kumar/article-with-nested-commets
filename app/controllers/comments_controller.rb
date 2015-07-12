@@ -26,8 +26,10 @@ class CommentsController < ApplicationController
   # POST /comments.json
   def create
     @comment = Comment.new(comment_params)
+    @article = Article.find(params[:article_id])
     @comment.article_id = params[:article_id]
     @comment.save
+    redirect_to @article
     # respond_to do |format|
     #   if true
     #     format.html { redirect_to @comment, notice: 'Comment was successfully created.' }
@@ -42,9 +44,10 @@ class CommentsController < ApplicationController
   # PATCH/PUT /comments/1
   # PATCH/PUT /comments/1.json
   def update
+    @article = Article.find(params[:article_id])
     respond_to do |format|
       if @comment.update(comment_params)
-        format.html { redirect_to @comment, notice: 'Comment was successfully updated.' }
+        format.html { redirect_to @article, notice: 'Comment was successfully updated.' }
         format.json { render :show, status: :ok, location: @comment }
       else
         format.html { render :edit }

@@ -1,1 +1,1 @@
-$('#articleCommets').append("<%=escape_javascript(render 'comments/comment', :locals => @comment)%>");
+// $('#articleCommets').append("<%=escape_javascript(render 'comments/comment', :locals => @comment)%>");
