@@ -4,7 +4,7 @@ class CommentsController < ApplicationController
   # GET /comments
   # GET /comments.json
   def index
-    @comments = Comment.all
+    @comments = Comment.hash_tree
   end
 
   # GET /comments/1
@@ -14,7 +14,8 @@ class CommentsController < ApplicationController
 
   # GET /comments/new
   def new
-    @comment = Comment.new
+    @article = Article.find(params[:article_id])
+    @comment = Comment.new(parent_id: params[:parent_id])
   end
 
   # GET /comments/1/edit
@@ -25,20 +26,22 @@ class CommentsController < ApplicationController
   # POST /comments
   # POST /comments.json
   def create
-    @comment = Comment.new(comment_params)
+    if params[:comment][:parent_id].to_i > 0
+      parent = Comment.find_by_id(params[:comment].delete(:parent_id))
+      @comment = parent.children.build(comment_params)
+      @comment.article_id = params[:article_id]
+    else
+      @comment = Comment.new(comment_params)
+      @comment.article_id = params[:article_id]
+    end
     @article = Article.find(params[:article_id])
-    @comment.article_id = params[:article_id]
-    @comment.save
-    redirect_to @article
-    # respond_to do |format|
-    #   if true
-    #     format.html { redirect_to @comment, notice: 'Comment was successfully created.' }
-    #     format.json { render :show, status: :created, location: @comment }
-    #   else
-    #     format.html { render :new }
-    #     format.json { render json: @comment.errors, status: :unprocessable_entity }
-    #   end
-    # end
+   
+    if @comment.save
+      flash[:success] = 'Your comment was successfully added!'
+      redirect_to @article
+    else
+      render 'new'
+    end
   end
 
   # PATCH/PUT /comments/1
@@ -74,6 +77,6 @@ class CommentsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def comment_params
-      params.require(:comment).permit(:body, :name, :article_id)
+      params.require(:comment).permit(:body, :name, :article_id, :parent_id)
     end
 end

@@ -1,5 +1,9 @@
-<h1>New Comment</h1>
+<h1>Nested  Comments</h1>
+
+<% if @comment.parent %>
+  <%= render 'comment', comment: @comment.parent, from_reply_form: true %>
+<% end %>
 
 <%= render 'form' %>
 
-<%= link_to 'Back', comments_path %>
+<%#= link_to 'Back', comments_path %>

@@ -16,19 +16,7 @@
 </p>
 
 
-<% @all_comments.each do |comment|%>
-	<p>
-	  <strong>Title:</strong>
-	  <%= comment.body %>
-	  <%= comment.id %>
-	</p>
-
-	<p>
-	  <strong>Description:</strong>
-	  <%= comment.name %>
-	</p>
-	<%= link_to 'Edit Comment', edit_article_comment_path(@article, comment) %>
-<% end %>
+<%= comments_tree_for @all_comments %>
 <div id="articleCommets"></div>
 
 

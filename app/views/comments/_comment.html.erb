@@ -1,12 +1,12 @@
-<p id="notice"><%= notice %></p>
 
-<p>
-  <strong>Title:</strong>
-  <%= @comment.body %>
-</p>
+<div class="well">
+  <h2><%= comment.body %></h2>
+  <p class="text-muted">Added by <strong><%= comment.name %></strong></p>
+ 
+</div>
 
-<p>
-  <strong>Description:</strong>
-  <%= @comment.name %>
-</p>
 
+<% from_reply_form ||= nil %>
+<% unless from_reply_form %>
+  <p><%= link_to 'reply', new_article_comment_path(@article, :parent_id => comment) %></p>
+<% end %>
