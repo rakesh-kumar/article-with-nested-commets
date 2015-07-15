@@ -41,3 +41,5 @@ gem 'spring',        group: :development
 
 gem 'devise'
 gem 'byebug'
+gem 'annotate', '~> 2.6.6'
+gem 'closure_tree'
